@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "912789074192",
+    "project_id": "flutterapp-91f1c",
+    "storage_bucket": "flutterapp-91f1c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912789074192:android:681eb859dfbbe0c94b3595",
+        "android_client_info": {
+          "package_name": "com.example.flutter_auth0"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "912789074192-bvrvqh08r81ik1f3bf4ujhagq8br1fvb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2Ie7J7CgZiXcedpCtdPRZCZ2gvqFTWy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "912789074192-bvrvqh08r81ik1f3bf4ujhagq8br1fvb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "912789074192-igv9b6loahrrdim61npeig7a2psjir4k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "jp.co.rei.dev.1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
