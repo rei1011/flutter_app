@@ -31,8 +31,10 @@ class _ExampleAppState extends State<ExampleApp> {
 
   Future<void> initDynamicLinks() async {
     dynamicLinks.onLink.listen((dynamicLinkData) {
-      debugPrint('dynamicLinkData.link.path = ${dynamicLinkData.link.path}');
-      Navigator.pushNamed(context, dynamicLinkData.link.path);
+      // debugPrint('dynamicLinkData.link.path = ${dynamicLinkData.link.path}');
+      // print('dynamicLinkData.link.path = ${dynamicLinkData.link.path}');
+      // Navigator.pushNamed(context, dynamicLinkData.link.path);
+      login();
     }).onError((error) {
       print('onLink error');
       print(error.message);
