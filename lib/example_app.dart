@@ -41,16 +41,27 @@ class MainScreenState extends State<MainScreen> {
   }
 
   Future<void> initDynamicLinks() async {
-    FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
     dynamicLinks.onLink.listen((dynamicLinkData) async {
       // debugPrint('dynamicLinkData.link.path = ${dynamicLinkData.link.path}');
       // print('dynamicLinkData.link.path = ${dynamicLinkData.link.path}');
       // Navigator.pushNamed(context, dynamicLinkData.link.path);
-      debugPrint('onLink is called');
-      await login();
+      // debugPrint('onLink is called');
+      // await login();
+      showDialog<void>(
+          context: context,
+          builder: (_) {
+            return AlertDialogSample(
+              pendingDynamicLinkData: dynamicLinkData,
+            );
+          });
     }).onError((error) {
       print('onLink error');
       print(error.message);
+      showDialog<void>(
+          context: context,
+          builder: (_) {
+            return const ErrorDialogSample();
+          });
     });
   }
 
@@ -221,6 +232,32 @@ class MainScreenState extends State<MainScreen> {
       routes: <String, WidgetBuilder>{
         '/helloworld': (BuildContext context) => const DynamicLinkPage(),
       },
+    );
+  }
+}
+
+class AlertDialogSample extends StatelessWidget {
+  const AlertDialogSample({Key? key, required this.pendingDynamicLinkData})
+      : super(key: key);
+  final pendingDynamicLinkData;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('listen is called'),
+      content: Text('dynamicLinkData = $pendingDynamicLinkData'),
+    );
+  }
+}
+
+class ErrorDialogSample extends StatelessWidget {
+  const ErrorDialogSample({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const AlertDialog(
+      title: Text('error is called'),
+      content: Text('error'),
     );
   }
 }
