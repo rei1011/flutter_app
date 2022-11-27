@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/dynamic_link_page.dart';
 import 'package:flutter_app/firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'example_app.dart';
@@ -9,5 +10,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(const ExampleApp());
+  runApp(
+    MaterialApp(
+      title: 'Dynamic Links Example',
+      routes: <String, WidgetBuilder>{
+        '/': (BuildContext context) => const MainScreen(),
+        '/helloworld': (BuildContext context) => const DynamicLinkPage(),
+      },
+    ),
+  );
 }
