@@ -24,17 +24,17 @@ class _ExampleAppState extends State<ExampleApp> {
   @override
   void initState() {
     super.initState();
-    initDynamicLinks();
     auth0 = widget.auth0 ??
         Auth0(dotenv.env['AUTH0_DOMAIN']!, dotenv.env['AUTH0_CLIENT_ID']!);
+    initDynamicLinks();
   }
 
   Future<void> initDynamicLinks() async {
-    dynamicLinks.onLink.listen((dynamicLinkData) {
+    dynamicLinks.onLink.listen((dynamicLinkData) async {
       // debugPrint('dynamicLinkData.link.path = ${dynamicLinkData.link.path}');
       // print('dynamicLinkData.link.path = ${dynamicLinkData.link.path}');
       // Navigator.pushNamed(context, dynamicLinkData.link.path);
-      login();
+      await login();
     }).onError((error) {
       print('onLink error');
       print(error.message);
