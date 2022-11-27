@@ -44,7 +44,7 @@ class _ExampleAppState extends State<ExampleApp> {
   Future<void> login() async {
     Credentials credentials = await auth0
         .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
-        .login();
+        .login(useEphemeralSession: true);
 
     setState(() {
       _user = credentials.user;
