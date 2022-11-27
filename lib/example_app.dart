@@ -19,7 +19,6 @@ class ExampleApp extends StatefulWidget {
 class _ExampleAppState extends State<ExampleApp> {
   UserProfile? _user;
   late Auth0 auth0;
-  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
   @override
   void initState() {
@@ -30,10 +29,12 @@ class _ExampleAppState extends State<ExampleApp> {
   }
 
   Future<void> initDynamicLinks() async {
+    FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
     dynamicLinks.onLink.listen((dynamicLinkData) async {
       // debugPrint('dynamicLinkData.link.path = ${dynamicLinkData.link.path}');
       // print('dynamicLinkData.link.path = ${dynamicLinkData.link.path}');
       // Navigator.pushNamed(context, dynamicLinkData.link.path);
+      debugPrint('onLink is called');
       await login();
     }).onError((error) {
       print('onLink error');
@@ -95,6 +96,9 @@ class _ExampleAppState extends State<ExampleApp> {
                     )
                   : ElevatedButton(
                       onPressed: login,
+                      // onPressed: () {
+                      //   Navigator.pushNamed(context, "/helloworld");
+                      // },
                       style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.black),
