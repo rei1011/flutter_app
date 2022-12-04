@@ -1,5 +1,6 @@
 import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/side_menu.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
@@ -62,11 +63,8 @@ class MainScreenState extends State<MainScreen> {
   Widget build(final BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          leading: const Text(
-            "sidebar",
-          ),
-        ),
+        appBar: AppBar(),
+        drawer: const SideMenu(),
         body: Padding(
           padding: const EdgeInsets.only(
             top: padding,
