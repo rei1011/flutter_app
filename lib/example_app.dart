@@ -1,10 +1,7 @@
 import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_app/dynamic_link_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'constants.dart';
 import 'hero.dart';
@@ -19,16 +16,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class MainScreenState extends State<MainScreen> {
-  String? _linkMessage;
-  bool _isCreatingLink = false;
   FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
-  final String _testString =
-      'To test: long press link and then copy and click from a non-browser '
-      "app. Make sure this isn't being tested on iOS simulator and iOS xcode "
-      'is properly setup. Look at firebase_dynamic_links/README.md for more '
-      'details.';
-  final String DynamicLink = 'https://example/helloworld';
-  final String Link = 'https://flutterappdev.page.link/oN6u';
   UserProfile? _user;
   late Auth0 auth0;
 
@@ -36,95 +24,49 @@ class MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     auth0 = widget.auth0 ??
-        Auth0(dotenv.env['AUTH0_DOMAIN']!, dotenv.env['AUTH0_CLIENT_ID']!);
-    initDynamicLinks();
-  }
-
-  Future<void> initDynamicLinks() async {
-    dynamicLinks.onLink.listen((dynamicLinkData) async {
-      // debugPrint('dynamicLinkData.link.path = ${dynamicLinkData.link.path}');
-      // print('dynamicLinkData.link.path = ${dynamicLinkData.link.path}');
-      // Navigator.pushNamed(context, dynamicLinkData.link.path);
-      // debugPrint('onLink is called');
-      // await login();
-      showDialog<void>(
-          context: context,
-          builder: (_) {
-            return AlertDialogSample(
-              pendingDynamicLinkData: dynamicLinkData,
-            );
-          });
-    }).onError((error) {
-      print('onLink error');
-      print(error.message);
-      showDialog<void>(
-          context: context,
-          builder: (_) {
-            return const ErrorDialogSample();
-          });
-    });
-  }
-
-  Future<void> _createDynamicLink(bool short) async {
-    setState(() {
-      _isCreatingLink = true;
-    });
-
-    final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: 'https://flutterappdev.page.link',
-      longDynamicLink: Uri.parse(
-        'https://flutterappdev.page.link?efr=0&ibi=io.flutter.plugins.firebase.dynamiclinksexample&apn=io.flutter.plugins.firebase.dynamiclinksexample&imv=0&amv=0&link=https%3A%2F%2Fexample%2Fhelloworld&ofl=https://ofl-example.com',
-      ),
-      link: Uri.parse(DynamicLink),
-      androidParameters: const AndroidParameters(
-        packageName: 'io.flutter.plugins.firebase.dynamiclinksexample',
-        minimumVersion: 0,
-      ),
-      iosParameters: const IOSParameters(
-        bundleId: 'io.flutter.plugins.firebase.dynamiclinksexample',
-        minimumVersion: '0',
-      ),
-    );
-
-    Uri url;
-    if (short) {
-      final ShortDynamicLink shortLink =
-          await dynamicLinks.buildShortLink(parameters);
-      url = shortLink.shortUrl;
-    } else {
-      url = await dynamicLinks.buildLink(parameters);
-    }
-
-    setState(() {
-      _linkMessage = url.toString();
-      _isCreatingLink = false;
-    });
+        Auth0(
+          dotenv.env['AUTH0_DOMAIN']!,
+          dotenv.env['AUTH0_CLIENT_ID']!,
+        );
   }
 
   Future<void> login() async {
     Credentials credentials = await auth0
-        .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
+        .webAuthentication(
+          scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'],
+        )
         .login(useEphemeralSession: true);
 
-    setState(() {
-      _user = credentials.user;
-    });
+    setState(
+      () {
+        _user = credentials.user;
+      },
+    );
   }
 
   Future<void> logout() async {
     await auth0
-        .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
+        .webAuthentication(
+          scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'],
+        )
         .logout();
 
-    setState(() {
-      _user = null;
-    });
+    setState(
+      () {
+        _user = null;
+      },
+    );
   }
 
   @override
   Widget build(final BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          leading: const Text(
+            "sidebar",
+          ),
+        ),
         body: Padding(
           padding: const EdgeInsets.only(
             top: padding,
@@ -139,8 +81,12 @@ class MainScreenState extends State<MainScreen> {
                 child: Column(
                   children: [
                     _user != null
-                        ? UserWidget(user: _user)
-                        : const Expanded(child: HeroWidget())
+                        ? UserWidget(
+                            user: _user,
+                          )
+                        : const Expanded(
+                            child: HeroWidget(),
+                          )
                   ],
                 ),
               ),
@@ -148,10 +94,13 @@ class MainScreenState extends State<MainScreen> {
                   ? ElevatedButton(
                       onPressed: logout,
                       style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.black),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.black,
+                        ),
                       ),
-                      child: const Text('Logout'),
+                      child: const Text(
+                        'Logout',
+                      ),
                     )
                   : ElevatedButton(
                       onPressed: login,
@@ -159,105 +108,18 @@ class MainScreenState extends State<MainScreen> {
                       //   Navigator.pushNamed(context, "/helloworld");
                       // },
                       style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.black),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.black,
+                        ),
                       ),
-                      child: const Text('Login'),
+                      child: const Text(
+                        'Login',
+                      ),
                     ),
-              ButtonBar(
-                alignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () async {
-                      final PendingDynamicLinkData? data =
-                          await dynamicLinks.getInitialLink();
-                      final Uri? deepLink = data?.link;
-
-                      if (deepLink != null) {
-                        // ignore: unawaited_futures
-                        Navigator.pushNamed(context, deepLink.path);
-                      }
-                    },
-                    child: const Text('getInitialLink'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      final PendingDynamicLinkData? data =
-                          await dynamicLinks.getDynamicLink(Uri.parse(Link));
-                      final Uri? deepLink = data?.link;
-
-                      if (deepLink != null) {
-                        // ignore: unawaited_futures
-                        Navigator.pushNamed(context, deepLink.path);
-                      }
-                    },
-                    child: const Text('getDynamicLink'),
-                  ),
-                  ElevatedButton(
-                    onPressed: !_isCreatingLink
-                        ? () => _createDynamicLink(false)
-                        : null,
-                    child: const Text('Get Long Link'),
-                  ),
-                  ElevatedButton(
-                    onPressed: !_isCreatingLink
-                        ? () => _createDynamicLink(true)
-                        : null,
-                    child: const Text('Get Short Link'),
-                  ),
-                ],
-              ),
-              InkWell(
-                onTap: () async {
-                  if (_linkMessage != null) {
-                    await launchUrl(Uri.parse(_linkMessage!));
-                  }
-                },
-                onLongPress: () {
-                  Clipboard.setData(ClipboardData(text: _linkMessage));
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Copied Link!')),
-                  );
-                },
-                child: Text(
-                  _linkMessage ?? '',
-                  style: const TextStyle(color: Colors.blue),
-                ),
-              ),
-              Text(_linkMessage == null ? '' : _testString)
             ],
           ),
         ),
       ),
-      routes: <String, WidgetBuilder>{
-        '/helloworld': (BuildContext context) => const DynamicLinkPage(),
-      },
-    );
-  }
-}
-
-class AlertDialogSample extends StatelessWidget {
-  const AlertDialogSample({Key? key, required this.pendingDynamicLinkData})
-      : super(key: key);
-  final pendingDynamicLinkData;
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('listen is called'),
-      content: Text('dynamicLinkData = $pendingDynamicLinkData'),
-    );
-  }
-}
-
-class ErrorDialogSample extends StatelessWidget {
-  const ErrorDialogSample({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const AlertDialog(
-      title: Text('error is called'),
-      content: Text('error'),
     );
   }
 }
