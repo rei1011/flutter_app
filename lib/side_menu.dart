@@ -7,8 +7,8 @@ class SideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        children: [
-          const ListTile(
+        children: const [
+          ListTile(
             leading: Icon(Icons.menu_book),
             title: Text("manga list"),
           ),
