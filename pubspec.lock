@@ -50,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  auto_route:
+    dependency: "direct main"
+    description:
+      name: auto_route
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.4"
   boolean_selector:
     dependency: transitive
     description:

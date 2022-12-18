@@ -24,6 +24,7 @@ dependencies:
   json_serializable: ^6.5.4
   json_annotation: ^4.7.0
   flutter_hooks: ^0.18.5+1
+  auto_route: ^5.0.4
 
 dev_dependencies:
   flutter_test:
